@@ -1,0 +1,31 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalEnv": ["NODE_ENV", "SKIP_ENV_VALIDATION"],
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [
+        "dist/**",
+        ".next/**",
+        "notifications/**",
+        "types/**",
+        "dist/**",
+        "config/**",
+        "build/**"
+      ],
+      "env": ["NODE_ENV", "SKIP_ENV_VALIDATION"]
+    },
+    "dev": {
+      "cache": false
+    },
+    "serve": {
+      "cache": false
+    },
+    "start": {
+      "cache": false
+    },
+    "lint": {
+      "outputs": []
+    }
+  }
+}

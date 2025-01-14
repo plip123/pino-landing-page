@@ -1,0 +1,77 @@
+@use "atropos/scss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.lp-scroll {
+  &::-webkit-scrollbar {
+    width: 0.3em;
+    height: 0.2em;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #2b2f29;
+    border-radius: 4px;
+    overflow-y: hidden;
+
+    &:hover {
+      background: #2b2f29;
+    }
+  }
+}
+
+.scroll-hide {
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+}
+
+.scrollable {
+  &::-webkit-scrollbar {
+    width: 0.3em;
+    height: 0.2em;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #2b2f29;
+    border-radius: 4px;
+
+    &:hover {
+      background: #2b2f29;
+    }
+  }
+}
+
+@media (min-width: 900px) {
+  .emoji {
+    transition:
+      transform 0.1s,
+      transform 0.8s 0.3s;
+  }
+
+  .emoji:hover {
+    transform: scale(3.2);
+    transition: transform 0.05s;
+  }
+}
+
+.zindex-5 {
+  z-index: 5;
+}
+
+.lp-list {
+  counter-reset: item;
+  list-style: none;
+
+  & > li {
+    display: block;
+
+    &:before {
+      content: counters(item, ".") ". ";
+      counter-increment: item;
+      display: inline-block;
+      width: 55px;
+      font-weight: bold;
+    }
+  }
+}

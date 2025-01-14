@@ -1,0 +1,60 @@
+name: Build and Test
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, edited]
+
+env:
+  SKIP_ENV_VALIDATION: TRUE
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.13]
+        yarn-version: [1.22.22]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Get yarn store directory
+        id: yarn-cache
+        run: |
+          echo "::set-output name=yarn_cache_dir::$(yarn store path)"
+
+      - uses: actions/cache@v3
+        name: Setup yarn cache
+        with:
+          path: ${{ steps.yarn-cache.outputs.yarn_cache_dir }}
+          key: ${{ runner.os }}-yarn-store-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-store-
+
+      - uses: actions/setup-node@v3
+        with:
+          cache: "yarn"
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Dependencies
+        run: |
+          yarn install
+
+      - name: Build entire project
+        continue-on-error: true
+        run: |
+          yarn run build

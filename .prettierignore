@@ -1,0 +1,4 @@
+# Ignore all templates
+/templates/**
+/.next/**
+yarn.lock
