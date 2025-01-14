@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, type RefObject } from "react";
 
-export const useOnScreen = (ref: RefObject<HTMLElement>) => {
+export const useOnScreen = (ref: RefObject<HTMLElement | null>) => {
   const [isIntersecting, setIntersecting] = useState(false);
 
   const observer = useMemo(
@@ -16,7 +16,7 @@ export const useOnScreen = (ref: RefObject<HTMLElement>) => {
   );
 
   useEffect(() => {
-    if (!ref.current || typeof observer === "undefined") return;
+    if (!ref?.current || typeof observer === "undefined") return;
 
     observer.observe(ref.current);
     return () => observer.disconnect();

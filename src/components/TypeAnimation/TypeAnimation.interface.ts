@@ -9,7 +9,7 @@ export interface ITypeAnimation {
 }
 
 export interface ITypeAnimationHook {
-  elementRef: RefObject<HTMLElement>;
+  elementRef: RefObject<HTMLElement | null>;
   sequence: Array<string>;
   delay: number;
   sequenceDelay?: number;
